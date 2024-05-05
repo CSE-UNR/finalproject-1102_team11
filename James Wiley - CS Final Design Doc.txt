@@ -1,0 +1,134 @@
+﻿CS Final Design Doc
+
+
+Problem: Create a program for getting, loading/displaying, or editing the brightness values of an “image”
+Algorithm
+* Prompt user for choice
+   * Repeat until exit
+      * Load new image
+         * File name(s) would be gotten from user
+            * Question: could the files be stored in a folder? Or is that getting into more advanced forms of File IO we don’t know about?
+               * Question: could the names of the various “images” be displayed to the user if you were to do the above? It’d make picking an image easier for the user since they’d be able to see all the filenames
+            * If the given filename is real, get info from said file
+               * Read info from file to a 2D array
+            * If given filename is not real, tell user it’s not real and to try again
+      * Show current image
+         * Ill put the table here later
+         * Check for loaded image
+            * If there’s brightness info stored, load it
+               * imgLoad
+            * If not, tell the user there’s no current/stored image, and that they have to pick one
+      * Edit current image (repeat until user backs out to the main menu)
+         * Crop
+            * Ask user what part of the image they want to use
+               * Would ask them for the col & row num of two corners of the image, like top left & bottom right or vice versa
+         * Dim
+            * Repeat until there are no more pixels to look at
+               * Check brightness values
+                  * If pixel > 0, subtract its value by 1
+                  * If pixel = 0, do nothing
+         * Brighten
+            * Repeat until there are no more pixels to look at
+               * Check brightness values
+                  * If pixel <  4, add its value by 1
+                  * If pixel = 4, do nothing
+         * Rotate (90o)
+            * Check position of pixel in array (assumes info from file is stored in a 2D array)
+               * Have row and col values swap places
+               * I.e. if a “pixel” is in image[2][0], then upon being rotated it will be in image[0][2].
+               * Might also try larger rotations since I don’t think they’d be that bad once I figure this one out
+                  * Maybe wouldn’t be necessary since the user could just rotate the img again and this would only work w/ 90o increments 
+         * Display any changes to the image to the user each time said changes are made
+   * Exit
+
+
+Functions
+
+
+* mainMenu
+   * Purpose - displays the various options user has on startup (load img, display img, edit img, exit) and has the user pick one.
+      * Repeat until exit
+         * Display main menu
+         * Prompt user for action choice
+         * Get choice from user 
+            * Could be a char, like L for load, E for edit, etc.
+            * Could be numbers instead
+            * Get to use a switch statement here (yay)
+         * Call function based on choice
+            * If load
+               * loadImg
+            * If display
+               * loadMenu
+            * If edit
+               * editMenu
+            * If exit
+               * Exit function since there will be nothing outside it in main probably
+* loadMenu
+   * Show list of img filenames to user (if this is possible)
+   * Prompt user for filename
+   * Get filename from user
+   * If gotten filename exists
+      * loadImg
+   * If gotten filename doesn’t exist
+      * Prompt user for filename again
+   * Note entirely sure if there needs to be a menu for loading files, but wtv
+* loadImg
+   * Open gotten file from user
+      * Read nums from file into 2D array
+         * If 0, print blank space
+         * If 1, print period
+         * If 2, print o
+         * If 3, print O
+         * If 4, print 0 
+         * There should prolly be two different arrays here, one for the file info and one for the corresponding chars
+* editMenu
+   * Display editing options to user (crop, dim, brighten, rotate, exit)
+      * Prompt user for choice
+      * Get choice from user
+      * If crop
+         * cropImg
+      * If dim
+         * dimImg
+      * If brighten
+         * brightImg
+      * If rotate
+         * turnImg
+      * If exit
+         * Return to main menu
+* cropImg
+   * Display img to user
+   * Prompt user for crop dimensions
+      * Ask for col and row num of two of the corners of what will be the new img
+         * Would ask them for the col & row num of two corners of the image, like top left & bottom right or vice versa
+         * Copy selected info from source array into crop array
+            * Repeat until end of crop range (i guess is what you’d call it)
+               * 1st element in crop range becomes 1st element in crop array
+                  * I.e. if it starts at source[4][3] or something then that becomes crop[0][0], then source[4][4] would be crop[0][1] and so on
+* dimImg
+   * Repeat until end of array
+      * If array element > 0 
+         * Subtract value by 1
+      * Else 
+         * Do nothing
+* brightImg
+   * Repeat until end of array
+      * If array element < 4
+         * Increase value by 1
+      * Else 
+         * Do nothing
+* turnImg
+   * Repeat until end of array
+      * Swap col and row values of current array element
+         * I.e. if a “pixel” is in image[2][0], then upon being rotated it will be in image[0][2].
+
+
+CS Tools
+* Formatted IO
+* Iteration
+* Selection
+* File IO
+* Arithmetic
+* Functions
+* Pass by address
+* 2D arrays
+   * Probably array slicing as well
