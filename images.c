@@ -1,10 +1,8 @@
-//James WIley
+//James Wiley
 //5-5-24
 //Purpose - FInal Project
 
 #include<stdio.h>
-
-#define FILE_ONE "test_image.txt"
 
 #define ROWS 500
 #define COLS 500
@@ -18,25 +16,26 @@ int main(){
 	int image[ROWS][COLS];
 	FILE *img_fp;
 
-		printf("Main Menu\n(L)oad an image\n(D)isplay the current image\n(E)dit the current image\ne(X)it\nWhat would you like to do? ");
+		printf("Main Menu\n(L)oad an image\n(D)isplay the current image\n(E)dit the current image\ne(X)it\nWhat would you like to do?: ");
 		
 		scanf(" %c", &choice);
 		
 		switch(choice){
 			
-			case 'l' :
+			case 'l':
 			case 'L':
 				
-				loadImg(img_fp,  ROWS, COLS,  image);
+				loadImg(img_fp, ROWS, COLS, image);
+				
 				break;
 			
-			case 'd' :
-			case 'D' :
+			case 'd':
+			case 'D':
 				
 				break;
 				
-			case 'e' :
-			case 'E' :
+			case 'e':
+			case 'E':
 				
 				break;
 				
@@ -50,6 +49,8 @@ int main(){
 			default:
 			
 				printf("invalid entry");
+				//wanna see if i can have it print the menu again instead of
+				//just ending the program
 				break;
 		}
 	
@@ -59,37 +60,35 @@ int main(){
 
 void loadImg(FILE *img_fp, int rows, int cols, int image[][cols]){
 	
-	char fileName[STR];
+	char fileName[STR], trash;
 	int i = 0;
 	
 	printf("Enter the image name here: ");
+
+	scanf(" %s", fileName);
+	scanf("%c", &trash);
+		
+	img_fp = fopen(fileName, "r");
+
+	if(fopen == NULL){
 	
-	fgets(fileName, STR, stdin);
+		printf("Cannot open file\n");
 	
-	if(fileName == "test_image" || fileName == "test_image.txt"){
-		
-		img_fp = fopen(FILE_ONE, "r");
-	
-		if(fopen == NULL){
-		
-			printf("Cannot open file\n");
-			
-		
-		}
-		else{
-			
-			while(fscanf(img_fp, "%d", *image) == 1){
-					
-				i++;
-					
-			}
-			
-		}
-		
 	}
 	else{
 		
-		printf("file not found\n");
+		while(fscanf(img_fp, "%d", *image) == 1){
+				
+			i++;
+				
+		}
+		
 	}
 	
+	for(int r = 0; r < rows; r++){
+		for(int c = 0; c < cols; c++){
+			
+			printf("%d", image[r][c]);
+		}
+	}
 }
